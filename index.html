@@ -1,1 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeNet - Edukasi Keamanan Digital</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="#home" class="logo">S <span>SafeNet</span></a>
+
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <nav id="navLinks">
+        <button data-tab="home">Beranda</button>
+        <button data-tab="materi">Materi</button>
+        <button data-tab="kuis">Kuis</button>
+        <button data-tab="forum">Forum</button>
+    </nav>
+</header>
+
+<main>
+
+<!-- BERANDA -->
+<section class="page active" id="home">
+
+    <div class="hero">
+        <div class="hero-text">
+            <span class="tag">DIGITAL SAFETY FOR EVERYONE</span>
+
+            <h1>Jelajahi dunia digital dengan <span>lebih aman.</span></h1>
+
+            <p>
+                Kenali ancaman digital, lindungi privasi,
+                dan bangun kebiasaan online yang lebih bijak
+                bersama SafeNet.
+            </p>
+
+            <button class="primary-btn" data-goto="materi">
+                Jelajahi Materi →
+            </button>
+
+            <button class="secondary-btn" data-goto="kuis">
+                Coba Kuis
+            </button>
+        </div>
+
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=85"
+                 alt="Ilustrasi keamanan digital">
+        </div>
+    </div>
+
+    <div class="ticker">
+        PRIVASI DIGITAL ✦ KENALI PHISHING ✦
+        JAGA DATA PRIBADI ✦ BIJAK BERMEDIA ✦
+    </div>
+
+    <div class="container">
+        <h2>Aman di internet dimulai dari pengetahuan.</h2>
+
+        <div class="feature-grid">
+
+            <article class="feature-card">
+                <div class="feature-icon">◈</div>
+                <h3>Lindungi Privasi</h3>
+                <p>Pahami data pribadi dan cara menjaganya.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">⌁</div>
+                <h3>Kenali Ancaman</h3>
+                <p>Belajar mengenali penipuan dan tautan berbahaya.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">✳</div>
+                <h3>Bijak Bermedia</h3>
+                <p>Periksa informasi sebelum membagikannya.</p>
+            </article>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Jelajahi topik SafeNet</h2>
+
+        <div class="horizontal-row">
+
+            <article class="topic-card">
+                <h3>Privasi Digital</h3>
+                <p>Kenali informasi yang harus dijaga.</p>
+                <button data-goto="materi">Pelajari →</button>
+            </article>
+
+            <article class="topic-card">
+                <h3>Kata Sandi</h3>
+                <p>Lindungi akun dengan kata sandi kuat.</p>
+                <button data-goto="materi">Pelajari →</button>
+            </article>
+
+            <article class="topic-card">
+                <h3>Phishing</h3>
+                <p>Kenali pesan dan tautan mencurigakan.</p>
+                <button data-goto="materi">Pelajari →</button>
+            </article>
+
+            <article class="topic-card">
+                <h3>Jejak Digital</h3>
+                <p>Pahami aktivitasmu di internet.</p>
+                <button data-goto="materi">Pelajari →</button>
+            </article>
+
+        </div>
+        <p class="scroll-hint">← GESER KE KANAN UNTUK MELIHAT TOPIK →</p>
+    </div>
+
+</section>
+
+
+<!-- MATERI -->
+<section class="page" id="materi">
+
+    <div class="page-heading">
+        <span class="tag">DIGITAL EDUCATION</span>
+        <h1>Kenali dasar <span>keamanan digital.</span></h1>
+        <p>Pelajari beberapa hal penting untuk menjaga keamanan saat menggunakan internet.</p>
+    </div>
+
+    <div class="container">
+
+        <div class="horizontal-row">
+
+            <article class="lesson-card">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80" alt="Privasi digital">
+                <h3>1. Data Pribadi</h3>
+                <p>
+                    Data pribadi merupakan informasi yang dapat
+                    mengidentifikasi seseorang, seperti nama,
+                    alamat, nomor telepon, dan informasi akun.
+                    Jangan membagikannya sembarangan.
+                </p>
+            </article>
+
+            <article class="lesson-card">
+                <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80" alt="Keamanan kata sandi">
+                <h3>2. Kata Sandi</h3>
+                <p>
+                    Gunakan kata sandi yang panjang dan unik
+                    untuk setiap akun. Hindari menggunakan
+                    tanggal lahir atau informasi yang mudah ditebak.
+                </p>
+            </article>
+
+            <article class="lesson-card">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Phishing">
+                <h3>3. Phishing</h3>
+                <p>
+                    Phishing adalah upaya penipuan untuk
+                    mendapatkan informasi sensitif melalui
+                    pesan atau situs palsu.
+                </p>
+            </article>
+
+            <article class="lesson-card">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Jejak digital">
+                <h3>4. Jejak Digital</h3>
+                <p>
+                    Jejak digital merupakan rekam aktivitas
+                    yang ditinggalkan saat menggunakan internet,
+                    seperti unggahan dan komentar.
+                </p>
+            </article>
+
+            <article class="lesson-card">
+                <img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=800&q=80" alt="Literasi digital">
+                <h3>5. Saring Sebelum Sharing</h3>
+                <p>
+                    Periksa sumber, tanggal, bukti, dan konteks
+                    informasi sebelum membagikannya.
+                </p>
+            </article>
+
+        </div>
+
+        <p class="scroll-hint">← GESER KARTU MATERI →</p>
+
+        <div class="checklist">
+            <h2>Kebiasaan Aman Setiap Hari</h2>
+            <ul>
+                <li>Periksa pengaturan privasi akun.</li>
+                <li>Gunakan kata sandi yang unik.</li>
+                <li>Jangan mengeklik tautan mencurigakan.</li>
+                <li>Perbarui aplikasi secara berkala.</li>
+                <li>Periksa fakta sebelum membagikan informasi.</li>
+            </ul>
+        </div>
+
+        <button class="primary-btn" data-goto="kuis">
+            Uji Pengetahuanmu →
+        </button>
+
+    </div>
+</section>
+
+
+<!-- KUIS -->
+<section class="page" id="kuis">
+
+    <div class="page-heading">
+        <span class="tag">TEST YOUR KNOWLEDGE</span>
+        <h1>Seberapa aman kamu <span>di dunia digital?</span></h1>
+        <p>Jawab pertanyaan berikut untuk menguji pengetahuanmu.</p>
+    </div>
+
+    <div class="quiz-box">
+        <div class="quiz-top">
+            <h2>Kuis SafeNet</h2>
+            <span id="quizCount">1 / 5</span>
+        </div>
+
+        <div class="progress">
+            <div id="progressFill"></div>
+        </div>
+
+        <h3 id="questionText"></h3>
+
+        <div id="answerList"></div>
+
+        <p id="quizFeedback">Pilih salah satu jawaban.</p>
+
+        <button id="nextQuestion" class="primary-btn" disabled>
+            Selanjutnya →
+        </button>
+
+        <div id="quizResult" class="hidden"></div>
+    </div>
+
+</section>
+
+
+<!-- FORUM -->
+<section class="page" id="forum">
+
+    <div class="page-heading">
+        <span class="tag">PUBLIC DISCUSSION</span>
+        <h1>Suaramu berarti untuk <span>ruang digital.</span></h1>
+        <p>Bagikan pendapat dan baca pengalaman pengunjung SafeNet lainnya.</p>
+    </div>
+
+    <div class="forum-layout container">
+
+        <form class="response-form" id="responseForm">
+
+            <h2>Bagikan Pendapatmu</h2>
+
+            <label for="visitorName">Nama / Nama Panggilan</label>
+            <input type="text" id="visitorName"
+                   maxlength="40" placeholder="Masukkan nama" required>
+
+            <label for="visitorMessage">Pendapat atau Masukan</label>
+            <textarea id="visitorMessage"
+                      maxlength="600"
+                      placeholder="Tuliskan pendapatmu..."
+                      required></textarea>
+
+            <div class="form-foot">
+                <span id="charCount">0/600</span>
+                <button class="primary-btn" type="submit" id="submitResponse">
+                    Kirim Respon →
+                </button>
+            </div>
+
+            <p class="privacy-note">
+                Jangan sertakan kata sandi, alamat, nomor telepon,
+                atau informasi pribadi lainnya. Pendapat yang dikirim
+                dapat dibaca oleh publik.
+            </p>
+
+            <p id="formStatus"></p>
+
+        </form>
+
+
+        <div class="community-panel">
+
+            <div class="community-head">
+                <h2>Suara Komunitas</h2>
+                <span>● LIVE</span>
+            </div>
+
+            <p><strong id="commentCount">0</strong> pendapat dibagikan</p>
+
+            <div id="commentsList">
+                <p>Memuat pendapat...</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="thankyou-banner container">
+        <div>
+            <span class="tag">THANK YOU FOR VISITING</span>
+            <h2>Terima kasih sudah berkunjung!</h2>
+            <p>Terus belajar dan jadilah pengguna digital yang bijak.</p>
+        </div>
+
+        <button class="secondary-btn" id="thankYouButton">
+            Terima Kasih ✓
+        </button>
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+    <h2>SafeNet</h2>
+    <p>Belajar aman. Berbagi dengan bijak.</p>
+    <small>© 2026 SafeNet - Edukasi Keamanan Digital</small>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+</body>
+</html>
 
