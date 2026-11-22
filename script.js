@@ -2,8 +2,8 @@
    KONFIGURASI DATABASE SUPABASE
 ================================= */
 
-const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://rlktwvgqaxlwfocxexlf.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_KH25pOcGtHyS5XV1h6IY5g_dgsERao7";
 
 const supabaseReady =
     SUPABASE_URL.includes(".supabase.co") &&
