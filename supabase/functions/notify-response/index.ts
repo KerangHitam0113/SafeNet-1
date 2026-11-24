@@ -20,7 +20,7 @@ serve(async (req) => {
         });
     }
 
-    const apiKey = Deno.env.get("RESEND_API_KEY");
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
     if (!apiKey) {
         return new Response("Email service not configured", {
