@@ -40,7 +40,7 @@ serve(async (req) => {
 
             body: JSON.stringify({
                 from: "SafeNet Website <onboarding@resend.dev>",
-                to: ["pluviophilefoxglove@gmail.com"],
+                to: ["vanvaayaa@gmail.com"],
                 subject: "Respon baru dari SafeNet",
 
                 text:
