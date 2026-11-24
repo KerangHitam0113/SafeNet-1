@@ -1,15 +1,22 @@
+
 /* =================================
    KONFIGURASI DATABASE SUPABASE
 ================================= */
 
-const SUPABASE_URL = "https://rlktwvgqaxlwfocxexlf.supabase.co/rest/v1/";
-const SUPABASE_ANON_KEY = "sb_publishable_KH25pOcGtHyS5XV1h6IY5g_dgsERao7";
+// URL dasar project Supabase
+const SUPABASE_URL =
+    "https://rlktwvgqaxlwfocxexlf.supabase.co";
 
+// Publishable Key Supabase
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KH25pOcGtHyS5XV1h6IY5g_dgsERao7";
+
+// Periksa konfigurasi Supabase
 const supabaseReady =
     SUPABASE_URL.includes(".supabase.co") &&
-    !SUPABASE_URL.includes("YOUR-PROJECT") &&
     !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
 
+// Hubungkan Supabase
 const db = supabaseReady
     ? window.supabase.createClient(
         SUPABASE_URL,
@@ -28,7 +35,10 @@ function showPage(id) {
     });
 
     document.querySelectorAll("[data-tab]").forEach(button => {
-        button.classList.toggle("active", button.dataset.tab === id);
+        button.classList.toggle(
+            "active",
+            button.dataset.tab === id
+        );
     });
 
     document.getElementById("navLinks").classList.remove("open");
@@ -267,6 +277,7 @@ function showResult() {
 function restartQuiz() {
     currentQuestion = 0;
     score = 0;
+    answered = false;
 
     document.getElementById("quizResult").classList.add("hidden");
 
@@ -302,12 +313,19 @@ const commentsList = document.getElementById("commentsList");
 function createElement(tag, className, value) {
     const element = document.createElement(tag);
 
-    if (className) element.className = className;
+    if (className) {
+        element.className = className;
+    }
 
     element.textContent = value;
 
     return element;
 }
+
+
+/* =================================
+   TAMPILKAN KOMENTAR
+================================= */
 
 function displayComments(data) {
     commentsList.innerHTML = "";
@@ -317,13 +335,19 @@ function displayComments(data) {
 
     if (data.length === 0) {
         commentsList.appendChild(
-            createElement("p", "", "Belum ada pendapat. Jadilah yang pertama!")
+            createElement(
+                "p",
+                "",
+                "Belum ada pendapat. Jadilah yang pertama!"
+            )
         );
+
         return;
     }
 
     data.forEach(comment => {
         const card = document.createElement("div");
+
         card.className = "comment-item";
 
         const name = createElement(
@@ -345,14 +369,21 @@ function displayComments(data) {
         );
 
         card.append(name, date, message);
+
         commentsList.appendChild(card);
     });
 }
+
+
+/* =================================
+   AMBIL KOMENTAR DARI SUPABASE
+================================= */
 
 async function loadComments() {
     if (!db) {
         commentsList.textContent =
             "Forum belum aktif. Hubungkan Supabase terlebih dahulu.";
+
         return;
     }
 
@@ -363,8 +394,11 @@ async function loadComments() {
         .limit(100);
 
     if (error) {
+        console.error("Gagal memuat komentar:", error);
+
         commentsList.textContent =
             "Komentar belum dapat dimuat.";
+
         return;
     }
 
@@ -373,7 +407,7 @@ async function loadComments() {
 
 
 /* =================================
-   KIRIM RESPON
+   KIRIM RESPON DAN NOTIFIKASI EMAIL
 ================================= */
 
 document.getElementById("responseForm")
@@ -392,56 +426,151 @@ document.getElementById("responseForm")
         const submit =
             document.getElementById("submitResponse");
 
+        // Periksa input
         if (!name || !message) {
             status.textContent =
                 "Nama dan pendapat wajib diisi.";
+
             return;
         }
 
+        if (message.length > 600) {
+            status.textContent =
+                "Pendapat maksimal 600 karakter.";
+
+            return;
+        }
+
+        // Periksa koneksi database
         if (!db) {
             status.textContent =
                 "Forum belum aktif. Admin perlu menghubungkan Supabase.";
+
             return;
         }
 
         submit.disabled = true;
         submit.textContent = "Mengirim...";
 
-        const { error } = await db
-            .from("responses")
-            .insert([{ name, message }]);
+        try {
 
-        if (error) {
+            /* ---------------------------------
+               1. SIMPAN KOMENTAR KE DATABASE
+            --------------------------------- */
+
+            const { error: insertError } = await db
+                .from("responses")
+                .insert([
+                    {
+                        name: name,
+                        message: message
+                    }
+                ]);
+
+            if (insertError) {
+                console.error(
+                    "Gagal menyimpan komentar:",
+                    insertError
+                );
+
+                status.textContent =
+                    "Respon gagal dikirim. Silakan coba kembali.";
+
+                return;
+            }
+
+
+            /* ---------------------------------
+               2. KIRIM NOTIFIKASI MELALUI RESEND
+            --------------------------------- */
+
+            try {
+
+                const { data, error: notificationError } =
+                    await db.functions.invoke(
+                        "notify-response",
+                        {
+                            body: {
+                                message:
+                                    `Nama pengunjung: ${name}\n` +
+                                    `Pendapat: ${message}`
+                            }
+                        }
+                    );
+
+                if (notificationError) {
+
+                    console.error(
+                        "Notifikasi email gagal:",
+                        notificationError
+                    );
+
+                } else {
+
+                    console.log(
+                        "Hasil notifikasi email:",
+                        data
+                    );
+
+                }
+
+            } catch (notificationError) {
+
+                console.error(
+                    "Kesalahan pemanggilan notifikasi:",
+                    notificationError
+                );
+
+            }
+
+
+            /* ---------------------------------
+               3. BERSIHKAN FORMULIR
+            --------------------------------- */
+
+            document.getElementById("responseForm").reset();
+
+            document.getElementById("charCount").textContent =
+                "0/600";
+
+
+            /* ---------------------------------
+               4. TAMPILKAN PESAN BERHASIL
+            --------------------------------- */
+
             status.textContent =
-                "Respon gagal dikirim. Silakan coba kembali.";
+                "Terima kasih! Pendapatmu berhasil dikirim.";
+
+            showToast(
+                "Terima kasih sudah mengirim respon!"
+            );
+
+
+            /* ---------------------------------
+               5. PERBARUI FORUM PUBLIK
+            --------------------------------- */
+
+            await loadComments();
+
+        } catch (error) {
+
+            console.error(
+                "Kesalahan pengiriman respon:",
+                error
+            );
+
+            status.textContent =
+                "Terjadi kesalahan. Silakan coba kembali.";
+
+        } finally {
 
             submit.disabled = false;
-            submit.textContent = "Kirim Respon →";
-            return;
+
+            submit.textContent =
+                "Kirim Respon →";
+
         }
 
-        // Email notifikasi melalui backend Supabase.
-        try {
-            await db.functions.invoke("notify-response", {
-                body: { name, message }
-            });
-        } catch (error) {
-            console.error("Notifikasi email gagal:", error);
-        }
-
-        document.getElementById("responseForm").reset();
-
-        document.getElementById("charCount").textContent = "0/600";
-
-        status.textContent =
-            "Terima kasih! Pendapatmu berhasil dikirim.";
-
-        showToast("Terima kasih sudah mengirim respon!");
-
-        await loadComments();
-
-        submit.disabled = false;
-        submit.textContent = "Kirim Respon →";
     });
 
 
@@ -450,7 +579,9 @@ document.getElementById("responseForm")
 ================================= */
 
 if (db) {
+
     db.channel("public-responses")
+
         .on(
             "postgres_changes",
             {
@@ -458,10 +589,18 @@ if (db) {
                 schema: "public",
                 table: "responses"
             },
-            loadComments
+            () => {
+                loadComments();
+            }
         )
+
         .subscribe();
+
 }
 
-loadComments();
 
+/* =================================
+   MUAT KOMENTAR SAAT WEBSITE DIBUKA
+================================= */
+
+loadComments();
